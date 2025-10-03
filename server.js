@@ -61,7 +61,16 @@ app.post("/submit", (req, res) => {
   console.log(req.body);
   const userId = req.body.user_id;
   const content = req.body.content;
-  res.send(`投稿しました ユーザーID: ${userId} 内容: ${content}`);
+
+  const sql = `INSERT INTO posts(user_id, content) VALUES ('${userId}', '${content}')`;
+
+  con.query(sql, (err, result) => {
+    if (err) {
+      res.status(400).json({ error: err.message });
+    }
+    res.json(result);
+  });
+  // res.send(`投稿しました ユーザーID: ${userId} 内容: ${content}`);
 });
 
 app.listen(port, () => {
