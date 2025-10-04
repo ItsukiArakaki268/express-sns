@@ -13,6 +13,7 @@ const dbName = process.env.DB_NAME;
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static("public"));
 // app.use(cors());
 
 const con = mysql.createConnection({
@@ -28,11 +29,11 @@ con.connect((err) => {
 });
 
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "index.html"));
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 app.get("/post", (req, res) => {
-  res.sendFile(path.join(__dirname, "post", "index.html"));
+  res.sendFile(path.join(__dirname, "public", "post", "index.html"));
 });
 
 app.get("/users_db", (req, res) => {
@@ -53,6 +54,8 @@ app.get("/posts_db", (req, res) => {
     if (err) {
       res.status(400).json({ error: err.message });
     }
+    console.log(result);
+    console.log(result[0].content);
     res.json(result);
   });
 });
@@ -68,6 +71,7 @@ app.post("/submit", (req, res) => {
     if (err) {
       res.status(400).json({ error: err.message });
     }
+    console.log(result);
     res.json(result);
   });
   // res.send(`投稿しました ユーザーID: ${userId} 内容: ${content}`);
