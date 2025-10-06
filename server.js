@@ -55,7 +55,6 @@ app.get("/posts_db", (req, res) => {
       res.status(400).json({ error: err.message });
     }
     console.log(result);
-    console.log(result[0].content);
     res.json(result);
   });
 });
